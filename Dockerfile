@@ -47,7 +47,6 @@ ARG JENKINS_URL=https://jenkins-updates.cloudbees.com/download/je/${JENKINS_VERS
 # Copy the jenkins war and check the SHA
 ADD ${JENKINS_URL} /usr/share/jenkins/jenkins.war
 RUN echo "${JENKINS_SHA} /usr/share/jenkins/jenkins.war" | sha1sum -c -
-RUN chown ${user} /usr/share/jenkins/jenkins.war
 
 ENV JENKINS_UC https://updates.jenkins.io
 RUN chown -R ${user} "$JENKINS_HOME" /usr/share/jenkins/ref

@@ -10,7 +10,7 @@
 */
 node('dockerhub') {
   def internal = (INTERNAL == 'true')
-  def dockerRegistry, dockerCredentials, warUrl
+  def dockerRegistry, dockerCredentials
   if (internal) {
     dockerRegistry = internalDockerRegistry
     dockerCredentials = internalDockerCredentials
@@ -19,12 +19,11 @@ node('dockerhub') {
                       usernameVariable: 'NEXUS_USERNAME',
                       passwordVariable: 'NEXUS_PASSWORD']]) {
       sh "curl -fsSL -u ${env.NEXUS_USERNAME}:${env.NEXUS_PASSWORD} $internalMavenRepository/com/cloudbees/jenkins/main/jenkins-enterprise-war/${JENKINS_VERSION}/jenkins-enterprise-war-${JENKINS_VERSION}.war -o jenkins.war"
-      warUrl = "/jenkins.war"
     }
   } else {
     dockerRegistry = ''
     dockerCredentials = dockerhubCredentials
-    warUrl = "http://jenkins-updates.cloudbees.com/download/je/${JENKINS_VERSION}/jenkins.war"
+    sh "curl -fsSL http://jenkins-updates.cloudbees.com/download/je/${JENKINS_VERSION}/jenkins.war -o jenkins.war"
   }
   def repo = "cloudbees/jenkins-enterprise" + ("${JENKINS_VERSION}".split("\\.").length > 4 ? "-fixed" : "")
   def dockerTag = "${repo}:${JENKINS_VERSION}"
@@ -38,7 +37,7 @@ node('dockerhub') {
                  --no-cache \
                  --build-arg "JENKINS_VERSION=${JENKINS_VERSION}" \
                  --build-arg "JENKINS_SHA=${JENKINS_SHA}" \
-                 --build-arg "JENKINS_URL=${warUrl}" \
+                 --build-arg "JENKINS_URL=/jenkins.war" \
                   -t $dockerTag .
   """
   def img = docker.image(dockerTag)
