@@ -1,3 +1,7 @@
+This repository will be no longer used as of February 24th. In its stated we will use the [Unified Distribution Repository](https://github.com/cloudbees/unified-distribution).
+
+---
+
 # CloudBees Jenkins Enterprise Docker image
 
 This is a fully functional [CloudBees Jenkins Enterprise](https://www.cloudbees.com/products/cloudbees-jenkins-platform).
