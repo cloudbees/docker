@@ -1,4 +1,4 @@
-This repository will be no longer used as of March 30th. In its stated we will use the [Unified Distribution Repository](https://github.com/cloudbees/unified-distribution).
+This repository is no longer used.
 
 ---
 
